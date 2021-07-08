@@ -1,0 +1,6 @@
+output/
+backup/
+inventory
+inventory/
+private/
+*.retry
