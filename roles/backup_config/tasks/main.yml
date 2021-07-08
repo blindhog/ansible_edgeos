@@ -1,0 +1,7 @@
+---
+# tasks file for backup_config
+- name: Download Device Config
+  community.network.edgeos_config:
+    backup: yes
+    backup_options:
+      filename: "{{ inventory_hostname }}-{{ yyyymmddhhmm }}.txt"
