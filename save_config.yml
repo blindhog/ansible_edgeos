@@ -1,0 +1,11 @@
+---
+- name: Save Device Config
+  hosts: all
+  gather_facts: no
+  serial: 50
+  vars:
+    - ansible_command_timeout: 60
+  roles:
+    - get_timestamps
+    - backup_config
+    - save_config

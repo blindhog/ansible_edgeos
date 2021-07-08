@@ -1,0 +1,5 @@
+---
+# tasks file for save_config
+- name: Save Device Config
+  community.network.edgeos_config:
+    save: yes
