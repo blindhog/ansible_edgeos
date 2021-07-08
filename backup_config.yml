@@ -15,7 +15,7 @@
       run_once: yes
 
     - name: Download Device Config
-      edgeos_config:
+      community.network.edgeos_config:
         backup: yes
         backup_options:
           filename: "{{ inventory_hostname }}-{{ yyyymmddhhmm }}.txt"
