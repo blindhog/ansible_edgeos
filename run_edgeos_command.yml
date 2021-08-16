@@ -1,0 +1,9 @@
+---
+- name: Run EdgeOS Device Command
+  hosts: all
+  gather_facts: no
+  vars:
+    interface_output: []
+  roles:
+    - get_timestamps
+    - run_edgeos_command
