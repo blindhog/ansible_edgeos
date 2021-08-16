@@ -1,0 +1,29 @@
+---
+- name: Get EdgeOS Facts
+  hosts: all
+  gather_facts: no
+  serial: 50
+  vars:
+    - output_directory: edgeos_facts
+
+  tasks:
+    - name: Get EdgeOS Facts
+      edgeos_facts:
+      register: edgeos_facts
+
+    - name: Debug EdgeOS Facts
+      debug:
+        msg: "{{ edgeos_facts }}"
+    
+    - name: Create Output Directory
+      file:
+        path: "{{ output_directory }}"
+        state: directory
+      delegate_to: localhost
+      run_once: yes
+
+    - name: Write EdgeOS Facts to file
+      copy:
+        content: "{{ edgeos_facts }}"
+        dest: "{{ output_directory }}/{{ ansible_host }}-edgeos_facts.txt"
+
