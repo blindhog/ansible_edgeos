@@ -1,0 +1,36 @@
+---
+# tasks file for run_edgeos_command
+- name: Get EdgeOS Interfaces
+  community.network.edgeos_command:
+    commands: "{{ edgeos_command }}"
+  register: edgeos_output
+
+- name: "Save '{{ edgeos_command }}' output to a variable"
+  set_fact:
+    interface_output: "{{ interface_output + item }}"
+  loop:
+    - "[' ','#-----','# {{ inventory_hostname }} - {{ ansible_host }}','#-----',' ']"
+    - "{{ edgeos_output.stdout_lines.0 }}"
+
+- debug: 
+    msg: "{{ groups['edgeos'] | map('extract', hostvars) | map(attribute='interface_output') }}"
+
+- name: Create command output report
+  template:
+    src: templates/edgeos_command.j2
+    dest: "/tmp/edgeos-command-{{ cmd }}-{{ yyyymmddhhmm }}.txt"
+    lstrip_blocks: yes
+    trim_blocks: yes
+
+- name: Send Report via e-mail
+  community.general.mail:
+    host: "{{ smtp_server }}"
+    port: 587
+    username: "{{ smtp_username }}"
+    password: "{{ smtp_password }}"
+    from: "{{ smtp_sender }}"
+    to: "{{ smtp_recipient }}"
+    subject: "AWX - EdgeOS command output"
+    body: "The EdgeOS command output Report Report is attached. \n\n ---\n AWX Automation System"
+    attach:
+      - "/tmp/edgeos-command-{{ cmd }}-{{ yyyymmddhhmm }}.txt"

@@ -1,0 +1,4 @@
+---
+# vars file for run_edgeos_command
+edgeos_command: 'show version'
+cmd: "{{ edgeos_command|replace(' ','-')|replace('|','-')|replace('^','')|replace('$','')|replace('[','')|replace(']','') }}"
