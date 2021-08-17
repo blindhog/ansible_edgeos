@@ -9,6 +9,7 @@
   tasks:
     - name: Get EdgeOS Facts
       edgeos_facts:
+        gather_subset: all
       register: edgeos_facts
 
     - name: Debug EdgeOS Facts
