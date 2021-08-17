@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: no
   vars:
-    interface_output: []
+    cmd_output: []
   roles:
     - get_timestamps
     - run_edgeos_command
