@@ -1,4 +1,5 @@
 ---
-- name: community.network
-  version: 3.0.0
-  source: https://galaxy.ansible.com
+collections:
+  - name: community.network
+    version: 3.0.0
+    source: https://galaxy.ansible.com
