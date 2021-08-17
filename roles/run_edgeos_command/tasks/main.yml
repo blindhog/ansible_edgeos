@@ -7,13 +7,16 @@
 
 - name: "Save '{{ edgeos_command }}' output to a variable"
   set_fact:
-    interface_output: "{{ interface_output + item }}"
+    cmd_output: "{{ cmd_output + item }}"
   loop:
     - "[' ','#-----','# {{ inventory_hostname }} - {{ ansible_host }}','#-----',' ']"
     - "{{ edgeos_output.stdout_lines.0 }}"
 
-- debug: 
-    msg: "{{ groups['edgeos'] | map('extract', hostvars) | map(attribute='interface_output') }}"
+- name: Merge Hosts command output 
+  set_fact: 
+    cmd_output_combined: "{{ groups['edgeos'] | map('extract', hostvars) | map(attribute='cmd_output') }}"
+  connection: local
+  run_once: yes
 
 - name: Create command output report
   template:
@@ -21,6 +24,8 @@
     dest: "/tmp/edgeos-command-{{ cmd }}-{{ yyyymmddhhmm }}.txt"
     lstrip_blocks: yes
     trim_blocks: yes
+  connection: local
+  run_once: yes
 
 - name: Send Report via e-mail
   community.general.mail:
@@ -34,3 +39,5 @@
     body: "The EdgeOS command output Report Report is attached. \n\n ---\n AWX Automation System"
     attach:
       - "/tmp/edgeos-command-{{ cmd }}-{{ yyyymmddhhmm }}.txt"
+  connection: local
+  run_once: yes
