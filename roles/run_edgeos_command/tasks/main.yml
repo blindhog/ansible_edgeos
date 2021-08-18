@@ -35,7 +35,7 @@
     password: "{{ smtp_password }}"
     from: "{{ smtp_sender }}"
     to: "{{ smtp_recipient }}"
-    subject: "AWX - EdgeOS command output"
+    subject: "AWX - EdgeOS command output ({{ edgeos_command}})"
     body: "The EdgeOS command output Report Report is attached. \n\n ---\n AWX Automation System"
     attach:
       - "/tmp/edgeos-command-{{ cmd }}-{{ yyyymmddhhmm }}.txt"
